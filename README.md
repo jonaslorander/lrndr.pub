@@ -21,6 +21,7 @@ Note: Uses the new Library Manager in VS2017 to download CSS and JavaScript libr
 
 ## Users
 Admin: admin : adminpass
+
 User: user : userpass
 
 ## Credits
