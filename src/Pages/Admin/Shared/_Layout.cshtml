@@ -1,0 +1,96 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - lrndrpub</title>
+
+    <environment include="Development">
+        <link rel="stylesheet" href="~/lib/bootstrap/css/bootstrap.css" />
+        <link rel="stylesheet" href="~/lib/font-awesome/css/all.css" />
+        <link rel="stylesheet" href="~/css/admin.css" />
+    </environment>
+    <environment exclude="Development">
+        <link rel="stylesheet" href="//stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+              asp-fallback-href="~/lib/bootstrap/css/bootstrap.min.css"
+              asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
+        <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.3.1/css/all.css"
+              asp-fallback-href="~/lib/font-awesome/css/all.css"
+              asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
+        <link rel="stylesheet" href="~/css/admin.min.css" asp-append-version="true" />
+    </environment>
+</head>
+<body>
+    <form asp-page="/Admin/Logout" asp-route-returnUrl="@Url.Page("/Index")" method="post" id="logoutForm" class="navbar-right">
+        <ul class="admmenu d-flex flex-lg-column">
+            <li class="admmenu-item">
+                <a asp-page="/Admin/Edit" class="admmenu-item-link" title="New content"><i class="admmenu-item-icon fas fa-pencil-alt"></i></a>
+            </li>
+            <li class="admmenu-item">
+                <a asp-page="/Admin/Index" class="admmenu-item-link" title="Content"><i class="admmenu-item-icon fa fa-align-left"></i></a>
+            </li>
+            <li class="admmenu-item">
+                <a asp-page="/Admin/Files" class="admmenu-item-link" title="Files"><i class="admmenu-item-icon fa fa-copy"></i></a>
+            </li>
+            <li class="admmenu-item">
+                <a asp-page="/Admin/Tags" class="admmenu-item-link" title="Tags"><i class="admmenu-item-icon fa fa-tags"></i></a>
+            </li>
+            <li class="admmenu-item">
+                <a asp-page="/Admin/Profile" class="admmenu-item-link" title="Profile"><i class="admmenu-item-icon fa fa-user"></i></a>
+            </li>
+            @if (Model.IsAdmin)
+            {
+                <li class="admmenu-item">
+                    <a asp-page="/Admin/Users" class="admmenu-item-link" title="Users"><i class="admmenu-item-icon fa fa-users"></i></a>
+                </li>
+            }
+            <li class="admmenu-item">
+                <a asp-page="/Admin/Settings" class="admmenu-item-link" title="Settings"><i class="admmenu-item-icon fa fa-cog"></i></a>
+            </li>
+            <li class="admmenu-item ml-auto ml-lg-0 mt-lg-auto">
+                <a asp-page="/Index" class="admmenu-item-link" title="Show site"><i class="admmenu-item-icon fa fa-globe"></i></a>
+            </li>
+            <li class="admmenu-item">
+                <button type="submit" class="btn btn-link admmenu-item-link" title="Logout"><i class="admmenu-item-icon fa fa-sign-out-alt"></i></button>
+            </li>
+        </ul>
+    </form>
+
+        <partial name="_CookieConsentPartial" />
+
+        <div class="container body-content">
+            @RenderBody()
+            <hr />
+            <footer>
+                <p>&copy; 2018 - lrndrpub admin</p>
+            </footer>
+        </div>
+
+        <environment inlcude="Development">
+            <script src="~/lib/jquery/jquery.js"></script>
+            <script src="~/lib/popper.js/umd/popper.js"></script>
+            <script src="~/lib/bootstrap/js/bootstrap.js"></script>
+            <script src="~/js/site.js" asp-append-version="true"></script>
+            <script src="~/js/admin.js" asp-append-version="true"></script>
+        </environment>
+        <environment exclude="Development">
+            <script src="//code.jquery.com/jquery-3.3.1.min.js"
+                    asp-fallback-src="~/lib/jquery/jquery.min.js"
+                    asp-fallback-test="window.jQuery">
+            </script>
+            <script src="//cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+                    asp-fallback-src="~/lib/popper.js/umd/popper.min.js"
+                    asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal">
+            </script>
+            <script src="//stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+                    asp-fallback-src="~/lib/bootstrap/js/bootstrap.min.js"
+                    asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal">
+            </script>
+            <script src="~/js/admin.min.js" asp-append-version="true"></script>
+            <script src="~/js/site.min.js" asp-append-version="true"></script>
+        </environment>
+
+        @RenderSection("Scripts", required: false)
+
+</body>
+</html>

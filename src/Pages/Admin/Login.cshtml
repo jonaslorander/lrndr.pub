@@ -1,0 +1,113 @@
+﻿@page
+@model lrndrpub.Pages.Admin.LoginModel
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login - lrndrpub</title>
+
+    <environment include="Development">
+        <link rel="stylesheet" href="~/lib/bootstrap/css/bootstrap.css" />
+        <link rel="stylesheet" href="~/css/site.css" />
+    </environment>
+    <environment exclude="Development">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+              integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous"
+              asp-fallback-href="~/lib/bootstrap/css/bootstrap.min.css"
+              asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
+        <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
+    </environment>
+
+    <style type="text/css">
+        body {
+            padding-top: 40px;
+            padding-bottom: 40px;
+            background-color: #eee;
+        }
+
+        .form-signin {
+            max-width: 330px;
+            padding: 15px;
+            margin: 0 auto;
+        }
+
+            .form-signin .form-signin-heading,
+            .form-signin .checkbox {
+                margin-bottom: 10px;
+            }
+
+            .form-signin .checkbox {
+                font-weight: normal;
+            }
+
+            .form-signin .form-control {
+                position: relative;
+                height: auto;
+                -webkit-box-sizing: border-box;
+                -moz-box-sizing: border-box;
+                box-sizing: border-box;
+                padding: 10px;
+                font-size: 16px;
+            }
+
+                .form-signin .form-control:focus {
+                    z-index: 2;
+                }
+
+            .form-signin input[type="text"] {
+                margin-bottom: -1px;
+                border-bottom-right-radius: 0;
+                border-bottom-left-radius: 0;
+            }
+
+            .form-signin input[type="password"] {
+                margin-bottom: 10px;
+                border-top-left-radius: 0;
+                border-top-right-radius: 0;
+            }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        @if (!User.Identity.IsAuthenticated)
+        {
+        <form asp-route-returnurl="@ViewData["ReturnUrl"]" class="form-signin" method="POST">
+            <h1 class="form-signin-heading">Welcome!</h1>
+            <p>You can sign in or go <a href="~/">back to the site</a>.</p>
+
+            <div asp-validation-summary="All" class="text-danger"></div>
+
+            <input asp-for="UserName" type="text" class="form-control" placeholder="Username" required autofocus>
+            <input asp-for="Password" type="password" class="form-control" placeholder="Password" required>
+
+            <div class="checkbox">
+                <label>
+                    <input asp-for="RememberMe" type="checkbox"> Remember me
+                </label>
+            </div>
+            <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+        </form>
+
+        }
+        else
+        {
+            <div class="bf-account-header mb-0">
+                <h1>You are already signed in!</h1>
+                <div class="btn-group btn-group-lg">
+                    <a asp-page="~/" class="btn btn-default">Blog</a>
+                    <a asp-page="~/admin" class="btn btn-default">Admin</a>
+                    <a asp-page="~/admin/logout" class="btn btn-default">Logout</a>
+                </div>
+            </div>
+        }
+    </div>
+
+</body>
+</html>

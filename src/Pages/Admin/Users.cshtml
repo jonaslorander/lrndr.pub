@@ -1,0 +1,39 @@
+﻿@page 
+@model lrndrpub.Pages.Admin.UsersModel
+@{
+
+}
+
+<h2>Users</h2>
+<p>
+    <a asp-page="Register">Add new user</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Users[0].Fullname)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Users[0].Email)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model.Users)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => user.Fullname)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => user.Email)
+            </td>
+            <td>
+                <a asp-page="/Admin/Profile" asp-route-id="@user.AuthorId">Profile</a>
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>

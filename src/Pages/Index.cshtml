@@ -1,0 +1,50 @@
+﻿@page "{handler?}"
+@inject IConfiguration _settings
+@inject AppDbContext _db
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<div class="row">
+    <div class="col-md-4">
+        <h2>Settings (@_db.Settings.Count())</h2>
+        <ul>
+            <li><b>Title</b> = @_settings["Title"]</li>
+            <li><b>Description</b> = @_settings["Description"]</li>
+            <li><b>PostsPerPage</b> = @int.Parse(_settings["PostsPerPage"])</li>
+            <li><b>EnableComments</b> = @bool.Parse(_settings["EnableComments"])</li>
+            <li><b>CommentingDays</b> = @int.Parse(_settings["CommentingDays"])</li>
+            <li><b>ModerateComments</b> = @bool.Parse(_settings["ModerateComments"])</li>
+            <li><b>Theme</b> = @_settings["Theme"]</li>
+        </ul>
+
+        <form method="post">
+            <input type="submit" asp-page-handler="ChangeTitle" title="Change title" value="Change title" />
+        </form>
+    </div>
+    <div class="col-md-4">
+        <h2>Users (@_db.Authors.Count())</h2>
+        <ul>
+            @{ 
+                foreach (Author a in _db.Authors)
+                {
+                    var pc = _db.Posts.Count(p => p.CreatedBy == a.AuthorId);
+                    <li>@a.Fullname (@a.Email) (@pc)</li>
+                }
+            }
+        </ul>
+    </div>
+    <div class="col-md-4">
+        <h2>Posts (@_db.Posts.Count())</h2>
+        <ul>
+            @{ 
+                foreach (Post p in _db.Posts)
+                {
+                    var cc = _db.Comments.Count(c => c.PostId == p.PostId);
+                    <li>@p.Title (@cc)</li>
+                }
+            }
+        </ul>
+    </div>
+</div>
