@@ -1,4 +1,4 @@
-# Simple blog and publishing engine for ASP.NET Core 2.0
+# Simple blog and publishing engine for ASP.NET Core 2.1
 # Work in progress!
 
 ## I will not be accepting any PRs at the moment!
@@ -7,8 +7,8 @@ A full-featured multi-user yet simple blog engine built on ASP.NET Core 2.0.
 
 ## Requirements
 * ASP.NET Core
- * SDK 2.1.403 or higher, or
- * Runtime 2.1.5 or higher
+  * SDK 2.1.403 or higher, or
+  * Runtime 2.1.5 or higher
 * Visual Studio 2017 or Visual Studio Core
 
 Note: Uses the new Library Manager in VS2017 to download CSS and JavaScript libraries
@@ -18,6 +18,13 @@ Note: Uses the new Library Manager in VS2017 to download CSS and JavaScript libr
 * List demo posts and settings
 * Showing users
 * Ading users (only if admin)
+* Adding and editing posts/pages
+  * Categories do not work
+  * Post/page settings needs some updates to GUI
+* Showing posts/pages
+* Showing comments on posts
+
+Note: At the moment, users (that are not admins) can edit other users posts/pages.
 
 ## Users
 Admin: admin : adminpass

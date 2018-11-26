@@ -1,0 +1,4 @@
+﻿@model lrndrpub.Models.Post
+
+<a asp-page="post" asp-route-slug="@Model.Slug"><h1>@Model.Title</h1></a>
+@Html.Raw(Model.Content)

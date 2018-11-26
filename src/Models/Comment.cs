@@ -21,9 +21,10 @@ namespace lrndrpub.Models
         public string Email { get; set; }
         [Required]
         public string Content { get; set; }
-        public DateTime PubDate { get; set; }
+        public DateTime PublishedAt { get; set; }
         public bool IsPublished { get; set; } = false;
         public bool IsOwner { get; set; } = false;
+        public DateTime CreatedAt { get; set; }
 
         public string GetGravatar()
         {

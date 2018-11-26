@@ -1,0 +1,12 @@
+﻿@page "{slug}"
+@model lrndrpub.Pages.AppPageModel
+@inject IConfiguration _config
+@{
+
+    var PagePartial = "Themes/" + _config["Theme"] + "/_Page";
+    ViewData["Title"] = Model.AppPage.Title;
+}
+
+@* Include Admin menu for post here, or in post? If in page we have to send *@
+<partial name="@PagePartial" model="@Model.AppPage" />
+

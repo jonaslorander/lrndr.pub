@@ -1,0 +1,5 @@
+﻿@model lrndrpub.Models.Comment
+
+<i>@Model.Author</i>
+<img src="@Model.GetGravatar()" title="@Model.Author" />
+<p>@Model.Content</p>

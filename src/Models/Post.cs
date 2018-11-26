@@ -22,13 +22,15 @@ namespace lrndrpub.Models
         public string CoverImage { get; set; }
 
         [Required]
-        public DateTime PubDate { get; set; }
         public bool IsPublished { get; set; } = true;
         public bool CommentsOpen { get; set; } = false;
+        public bool IsPage { get; set; } = false;
 
         public DateTime CreatedAt { get; set; }
         public uint CreatedBy { get; set; }
         public DateTime UpdatedAt { get; set; }
         public uint UpdatedBy { get; set; }
+        public DateTime PublishedAt { get; set; }
+        public uint PublishedBy { get; set; }
     }
 }

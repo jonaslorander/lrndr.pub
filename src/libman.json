@@ -36,6 +36,10 @@
         "umd/popper.js",
         "umd/popper.min.js"
       ]
+    },
+    {
+      "library": "Trumbowyg@2.11.1",
+      "destination": "wwwroot/lib/Trumbowyg/"
     }
   ]
 }

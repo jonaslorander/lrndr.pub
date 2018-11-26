@@ -14,7 +14,7 @@ namespace lrndrpub.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.1.3-rtm-32065");
+                .HasAnnotation("ProductVersion", "2.1.4-rtm-31024");
 
             modelBuilder.Entity("lrndrpub.Models.AppUser", b =>
                 {
@@ -115,6 +115,8 @@ namespace lrndrpub.Migrations
                     b.Property<string>("Content")
                         .IsRequired();
 
+                    b.Property<DateTime>("CreatedAt");
+
                     b.Property<string>("Email");
 
                     b.Property<bool>("IsOwner");
@@ -123,7 +125,7 @@ namespace lrndrpub.Migrations
 
                     b.Property<uint>("PostId");
 
-                    b.Property<DateTime>("PubDate");
+                    b.Property<DateTime>("PublishedAt");
 
                     b.HasKey("CommentId");
 
@@ -146,9 +148,13 @@ namespace lrndrpub.Migrations
 
                     b.Property<uint>("CreatedBy");
 
+                    b.Property<bool>("IsPage");
+
                     b.Property<bool>("IsPublished");
 
-                    b.Property<DateTime>("PubDate");
+                    b.Property<DateTime>("PublishedAt");
+
+                    b.Property<uint>("PublishedBy");
 
                     b.Property<string>("Slug")
                         .IsRequired();

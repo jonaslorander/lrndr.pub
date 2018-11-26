@@ -1,0 +1,143 @@
+﻿@page "{id:int?}"
+@model lrndrpub.Pages.Admin.EditModel
+@{
+    ViewData["Title"] = "Edit";
+
+    var disabled = Model.Post.PostId == 0 ? "disabled" : "";
+
+    @functions
+    {
+        public string ButtonDisabled(string btn)
+        {
+            bool newPost = (Model.Post.PostId == 0);
+
+            if (newPost && (btn == "delete"))
+                return "disabled";
+
+            if (!newPost && (btn == "draft"))
+                return "disabled";
+
+            return "";
+        }
+    }
+}
+
+<form method="post" id="editForm" class="" asp-antiforgery="true">
+    <div class="edit-top">
+        <div class="container">
+            <div class="row">
+                <div class="edit-title col-sm">
+                    <input type="text" asp-for="Post.Title" placeholder="Title..." />
+                </div>
+
+                <div class="edit-slug col-sm">
+                    <input type="text" asp-for="Post.Slug" placeholder="Slug..." />
+                </div>
+            </div>
+
+            <div class="btn-group edit-buttons" role="group">
+                <button type="submit" class="btn btn-light" asp-page-handler="Publish">Publish</button>
+                <button type="submit" class="btn btn-light" asp-page-handler="SaveDraft" @ButtonDisabled("draft")>Save as draft</button>
+                <button class="btn btn-light" type="button" data-toggle="collapse" data-target="#collapseSettings" aria-expanded="false" aria-controls="collapseSettings">
+                    <i class="fas fa-cog"></i>
+                </button>
+            </div>
+
+            <div class="btn-group edit-buttons" role="group">
+                <button type="button" class="btn btn-light" data-toggle="modal" data-target="#cancelModal">Cancel</button>
+                <button type="button" class="btn btn-light" data-toggle="modal" data-target="#deleteModal" @ButtonDisabled("delete")><i class="fas fa-trash"></i></button>
+            </div>
+
+            <div class="collapse row" id="collapseSettings">
+                <div class="col-sm">
+                    Publish date:<br />
+                    <input type="datetime" asp-for="Post.PublishedAt" />
+                </div>
+
+                <div class="col-sm">
+                    Cover image:<br />
+                    <input type="text" asp-for="Post.CoverImage" /><br />
+
+                    Tags:<br />
+                    <input type="text" />
+                </div>
+
+                <div class="col-sm">
+                    <input type="checkbox" asp-for="Post.IsPage" /> Save as page<br />
+                    <input type="checkbox" asp-for="Post.CommentsOpen" /> Allow comments
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="editor-container container">
+        <textarea id="editor" asp-for="Post.Content">
+        </textarea>
+    </div>
+
+    <input type="hidden" asp-for="Post.PostId" />
+    <input type="hidden" asp-for="Post.IsPublished" />
+    <input type="hidden" asp-for="Post.CreatedAt" />
+    <input type="hidden" asp-for="Post.CreatedBy" />
+    <input type="hidden" asp-for="Post.UpdatedAt" />
+    <input type="hidden" asp-for="Post.UpdatedBy" />
+    <input type="hidden" asp-for="Post.PublishedBy" />
+
+    <div class="modal fade" id="cancelModal" tabindex="-1" role="dialog" aria-labelledby="cancelModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="cancelModalCenterTitle"><i class="fas fa-exclamation-triangle" style="color: #e00;"></i> Cancel</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to cancel editing and loose all changes?
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-danger" asp-page-handler="Cancel">Yes</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModalCenterTitle"><i class="fas fa-exclamation-triangle" style="color: #e00;"></i> Delete</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to delete the post/page?
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-danger" asp-page-handler="Delete">Yes</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+@section StyleSheets {
+    <environment include="Development">
+        <link rel="stylesheet" href="~/lib/Trumbowyg/ui/trumbowyg.css" />
+    </environment>
+    <environment exclude="Development">
+        <link rel="stylesheet" href="~/lib/Trumbowyg/ui/trumbowyg.min.css" />
+    </environment>
+}
+
+@section Scripts {
+    <environment inlcude="Development">
+        <script src="~/lib/Trumbowyg/trumbowyg.js"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="~/lib/Trumbowyg/trumbowyg.min.js"></script>
+    </environment>
+}

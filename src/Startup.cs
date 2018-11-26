@@ -11,10 +11,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 using lrndrpub.Data;
 using lrndrpub.Models;
-using lrndrpub.Services;
 
 namespace lrndrpub
 {
@@ -37,11 +37,12 @@ namespace lrndrpub
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+            services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
             services.AddDbContext<AppDbContext>(options =>
                 options.UseSqlite(Configuration.GetConnectionString("AppDbContext")));
 
             services.AddIdentity<AppUser, IdentityRole>()
-                // services.AddDefaultIdentity<IdentityUser>()
                 .AddEntityFrameworkStores<AppDbContext>()
                 .AddDefaultTokenProviders();
 
@@ -70,7 +71,7 @@ namespace lrndrpub
             {
                 // Cookie settings
                 options.Cookie.HttpOnly = true;
-                options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
+                options.ExpireTimeSpan = TimeSpan.FromMinutes(15);
 
                 options.AccessDeniedPath = "/Admin/AccessDenied";
                 options.LoginPath = "/Admin/Login";
@@ -86,21 +87,23 @@ namespace lrndrpub
                     options.Conventions.AllowAnonymousToPage("/Admin/AccessDenied");
                 })
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+            services.AddRouting(options => options.LowercaseUrls = true);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            //if (env.IsDevelopment())
-            //{
+            if (env.IsDevelopment())
+            {
                 app.UseDeveloperExceptionPage();
                 app.UseDatabaseErrorPage();
-            /*}
+            }
             else
             {
                 app.UseExceptionHandler("/Error");
                 app.UseHsts();
-            }*/
+            }
 
             app.UseStaticFiles();
             app.UseCookiePolicy();

@@ -6,39 +6,42 @@
     ViewData["Title"] = "Admin";
 }
 
-<div class="row">
-    <div class="col-md-4">
-        <h2>Change theme (@_db.Settings.Count())</h2>
-        <ul>
-            <li><b>Title</b> = @_settings["Title"]</li>
-            <li><b>Description</b> = @_settings["Description"]</li>
-            <li><b>PostsPerPage</b> = @int.Parse(_settings["PostsPerPage"])</li>
-            <li><b>EnableComments</b> = @bool.Parse(_settings["EnableComments"])</li>
-            <li><b>CommentingDays</b> = @int.Parse(_settings["CommentingDays"])</li>
-            <li><b>ModerateComments</b> = @bool.Parse(_settings["ModerateComments"])</li>
-            <li><b>Theme</b> = @_settings["Theme"]</li>
-        </ul>
-    </div>
-    <div class="col-md-4">
-        <h2>Users (@_db.Authors.Count())</h2>
-        <ul>
-            @{ 
-                foreach (Author u in _db.Authors)
-                {
-                    <li>@u.Fullname (@u.Email) ({posts})</li>
+<div class="container admin-padding">
+    <div class="row">
+        <div class="col-md-4">
+            <h4>Posts (@_db.Posts.Count(p => p.IsPage == false))</h4>
+            <ul>
+                @{
+                    foreach (Post p in _db.Posts.Where(p => p.IsPage == false))
+                    {
+                <li>@p.Title (<a asp-page="/post" asp-route-slug="@p.Slug">View</a> | <a asp-page="Edit" asp-route-id="@p.PostId">Edit</a>)</li>
+                    }
                 }
-            }
-        </ul>
-    </div>
-    <div class="col-md-4">
-        <h2>Posts (@_db.Posts.Count())</h2>
-        <ul>
-            @{ 
-                foreach (Post p in _db.Posts)
-                {
-                    <li>@p.Title ({comments})</li>
+            </ul>
+        </div>
+        <div class="col-md-4">
+            <h4>Pages (@_db.Posts.Count(p => p.IsPage == true))</h4>
+            <ul>
+                @{
+                    foreach (Post p in _db.Posts.Where(p => p.IsPage == true))
+                    {
+                <li>@p.Title (<a asp-page="/page" asp-route-slug="@p.Slug">View</a> | <a asp-page="Edit" asp-route-id="@p.PostId">Edit</a>)</li>
+                    }
                 }
-            }
-        </ul>
+            </ul>
+        </div>
+        <div class="col-md-4">
+            <h4>Comments (@_db.Comments.Count())</h4>
+            <ul>
+                @{
+                    foreach (Comment c in _db.Comments)
+                    {
+                <li>@c.PostId (View | Approve)</li>
+                    }
+                }
+            </ul>
+            </ul>
+        </div>
     </div>
 </div>
+

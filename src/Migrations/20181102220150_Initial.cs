@@ -80,9 +80,10 @@ namespace lrndrpub.Migrations
                     Author = table.Column<string>(nullable: false),
                     Email = table.Column<string>(nullable: true),
                     Content = table.Column<string>(nullable: false),
-                    PubDate = table.Column<DateTime>(nullable: false),
+                    PublishedAt = table.Column<DateTime>(nullable: false),
                     IsPublished = table.Column<bool>(nullable: false),
-                    IsOwner = table.Column<bool>(nullable: false)
+                    IsOwner = table.Column<bool>(nullable: false),
+                    CreatedAt = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -99,13 +100,15 @@ namespace lrndrpub.Migrations
                     Slug = table.Column<string>(nullable: false),
                     Content = table.Column<string>(nullable: false),
                     CoverImage = table.Column<string>(nullable: true),
-                    PubDate = table.Column<DateTime>(nullable: false),
                     IsPublished = table.Column<bool>(nullable: false),
                     CommentsOpen = table.Column<bool>(nullable: false),
+                    IsPage = table.Column<bool>(nullable: false),
                     CreatedAt = table.Column<DateTime>(nullable: false),
                     CreatedBy = table.Column<uint>(nullable: false),
                     UpdatedAt = table.Column<DateTime>(nullable: false),
-                    UpdatedBy = table.Column<uint>(nullable: false)
+                    UpdatedBy = table.Column<uint>(nullable: false),
+                    PublishedAt = table.Column<DateTime>(nullable: false),
+                    PublishedBy = table.Column<uint>(nullable: false)
                 },
                 constraints: table =>
                 {
