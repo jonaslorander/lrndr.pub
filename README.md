@@ -28,6 +28,7 @@ Note: At the moment, users (that are not admins) can edit other users posts/page
 
 ## Users
 Admin: admin : adminpass
+
 User: user : userpass
 
 ## Credits
