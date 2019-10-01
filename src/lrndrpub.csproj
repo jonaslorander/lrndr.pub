@@ -1,9 +1,9 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
     <UserSecretsId>aspnet-lrndrpub-A244C2AF-B31A-4048-9A4B-10F79E5160EB</UserSecretsId>
-    <!--<RuntimeFrameworkVersion>2.1.2</RuntimeFrameworkVersion>-->
+    <!--<RuntimeFrameworkVersion>2.2.1</RuntimeFrameworkVersion>-->
   </PropertyGroup>
 
   <ItemGroup>
@@ -15,10 +15,10 @@
 
   <ItemGroup>
     <PackageReference Include="BuildBundlerMinifier" Version="2.8.391" />
-    <PackageReference Include="Microsoft.AspNetCore.App" Version="2.1.5" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="2.1.4" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="2.1.4" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.5" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational"/>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" />
+    <!--<PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.6" PrivateAssets="All" />-->
   </ItemGroup>
 
   <ItemGroup>
@@ -44,10 +44,11 @@
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
   </ItemGroup>
-
+  <!--
   <ItemGroup>
     <None Include="wwwroot\themes\Standard\theme.css" />
   </ItemGroup>
+  -->
 
   <ItemGroup>
     <Folder Include="Services\" />

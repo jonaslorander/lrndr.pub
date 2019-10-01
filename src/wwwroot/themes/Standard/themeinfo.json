@@ -1,0 +1,38 @@
+{
+  "theme": {
+    "name": "Standard",
+    "author": {
+
+      "name": "Jonas Lorander",
+      "email": "jonas@lorander.com",
+      "website": "http://jonas.lorander.com/"
+    },
+    "settings": [
+      {
+        "name": "Standard:menucolor",
+        "description": "Select the colour of the menu bar",
+        "value": [
+          "primary",
+          "secondary",
+          "danger"
+        ],
+        "default": "primary"
+      },
+      {
+        "name": "Standard:bannervisibility",
+        "description": "Should the banner be visible?",
+        "value": [
+          "true",
+          "false"
+        ],
+        "default": "false"
+      },
+      {
+        "name": "Standard:bannermessage",
+        "description": "Banner message",
+        "value": "",
+        "default": ""
+      }
+    ]
+  }
+}

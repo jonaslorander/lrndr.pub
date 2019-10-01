@@ -1,15 +1,15 @@
-# Simple blog and publishing engine for ASP.NET Core 2.1
+# Simple blog and publishing engine for ASP.NET Core 2.2
 # Work in progress!
 
 ## I will not be accepting any PRs at the moment!
 
-A full-featured multi-user yet simple blog engine built on ASP.NET Core 2.0.
+A full-featured multi-user yet simple blog engine built on ASP.NET Core 2.2.
 
 ## Requirements
 * ASP.NET Core
-  * SDK 2.1.403 or higher, or
-  * Runtime 2.1.5 or higher
-* Visual Studio 2017 or Visual Studio Core
+  * SDK 2.2.103 or higher, or
+  * Runtime 2.2.1 or higher
+* Visual Studio 2017 or Visual Studio Code
 
 Note: Uses the new Library Manager in VS2017 to download CSS and JavaScript libraries
 
