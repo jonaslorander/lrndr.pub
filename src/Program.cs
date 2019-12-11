@@ -7,6 +7,7 @@ using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.DependencyInjection;
@@ -20,16 +21,15 @@ namespace lrndrpub
     {
         public static void Main(string[] args)
         {
-            //CreateWebHostBuilder(args).Build().Run();
-            var host = CreateWebHostBuilder(args).Build();
+            var host = CreateHostBuilder(args).Build();
             
             // Seed database
             using (var scope = host.Services.CreateScope())
             {
                 var services = scope.ServiceProvider;
 
-                //try
-                //{
+                try
+                {
                     var um = (UserManager<AppUser>)services.GetRequiredService(typeof(UserManager<AppUser>));
                     if(!um.Users.Any())
                     {
@@ -39,24 +39,32 @@ namespace lrndrpub
 
                     var context = services.GetRequiredService<AppDbContext>();
                     DbInitializer.Initialize(context, um);
-                /*}
+                }
                 catch (Exception ex)
                 {
                     var logger = services.GetRequiredService<ILogger<Program>>();
                     logger.LogError(ex, "An error occurred creating the DB.");
-                }*/
+                }
             }
             
 
             host.Run();
         }
 
-        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-                .ConfigureAppConfiguration((hostingContext, config) =>
+        public static IHostBuilder CreateHostBuilder(string[] args) =>
+            Host.CreateDefaultBuilder(args)
+                /*.ConfigureLogging(logging =>
                 {
-                    config.AddAppConfiguration(options => options.UseSqlite((@"DataSource=.\app.db")));
-                })
-                .UseStartup<Startup>();
+                    logging.ClearProviders();
+                    logging.AddConsole();
+                })*/
+                .ConfigureWebHostDefaults(webBuilder =>
+                {
+                    webBuilder.ConfigureAppConfiguration((hostingContext, config) =>
+                    {
+                        config.AddAppConfiguration(options => options.UseSqlite((@"DataSource=.\app.db")));
+                    })
+                    .UseStartup<Startup>();
+                });
     }
 }

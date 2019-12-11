@@ -12,9 +12,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Extensions.Hosting;
 
 using lrndrpub.Data;
 using lrndrpub.Models;
+using lrndrpub.Services;
 
 namespace lrndrpub
 {
@@ -37,6 +39,8 @@ namespace lrndrpub
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+            services.AddScoped<IPostService, PostService>();
+            services.AddScoped<IFileService, FileService>();
             services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             services.AddDbContext<AppDbContext>(options =>
@@ -79,20 +83,19 @@ namespace lrndrpub
                 options.SlidingExpiration = true;
             });
 
-            services.AddMvc()
+            services.AddRazorPages()
                 .AddRazorPagesOptions(options =>
                 {
                     options.Conventions.AuthorizeFolder("/Admin");
                     options.Conventions.AllowAnonymousToPage("/Admin/Login");
                     options.Conventions.AllowAnonymousToPage("/Admin/AccessDenied");
-                })
-                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+                });
 
-            services.AddRouting(options => options.LowercaseUrls = true);
+            //services.AddRouting(options => options.LowercaseUrls = true);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -105,12 +108,19 @@ namespace lrndrpub
                 app.UseHsts();
             }
 
+            app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
 
-            app.UseAuthentication();
+            app.UseRouting();
 
-            app.UseMvc();
+            app.UseAuthentication();
+            app.UseAuthorization();
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapRazorPages();
+            });
         }
     }
 }
