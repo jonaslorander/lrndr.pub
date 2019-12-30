@@ -1,4 +1,19 @@
 ﻿@model lrndrpub.Models.Post
 
-<h1>@Model.Title</h1>
+@{
+    if (Context.Request.Path.Value.ToLower().Contains("/post/") 
+        && !string.IsNullOrEmpty(Model.CoverImage))
+    {
+    <div class="coverimage row col-12">
+        <img src="@Model.CoverImage" title="@Model.Title" />
+    </div>
+    }
+}
+
+<h1>@Model.Title</h1> <i>@Model.PublishedAt.ToShortDateString()</i>
+<br />
+
+<partial name="Admin/Shared/_AdminMenu" model="@Model" />
+
 @Html.Raw(Model.Content)
+

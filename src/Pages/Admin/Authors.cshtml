@@ -1,5 +1,5 @@
 ﻿@page 
-@model lrndrpub.Pages.Admin.UsersModel
+@model lrndrpub.Pages.Admin.AuthorsModel
 @{
 
 }
@@ -31,7 +31,7 @@
                 @Html.DisplayFor(modelItem => user.Email)
             </td>
             <td>
-                <a asp-page="/Admin/Profile" asp-route-id="@user.AuthorId">Profile</a>
+                <a asp-page="/Admin/Profile" asp-route-slug="@user.Slug">Profile</a>
             </td>
         </tr>
         }

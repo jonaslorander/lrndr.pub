@@ -21,9 +21,15 @@ namespace lrndrpub.Models
         public string Email { get; set; }
         [Required]
         public string Content { get; set; }
+
+        [DataType(DataType.DateTime)]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd HH:mm}")]
         public DateTime PublishedAt { get; set; }
         public bool IsPublished { get; set; } = false;
         public bool IsOwner { get; set; } = false;
+
+        [DataType(DataType.DateTime)]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd HH:mm}")]
         public DateTime CreatedAt { get; set; }
 
         public string GetGravatar()

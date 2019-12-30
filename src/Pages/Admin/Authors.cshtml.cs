@@ -12,20 +12,20 @@ using lrndrpub.Models;
 
 namespace lrndrpub.Pages.Admin
 {
-    public class UsersModel : PageModel
+    public class AuthorsModel : PageModel
     {
-        private AppDbContext _db;
-        private UserManager<AppUser> _um;
+        private readonly AppDbContext _db;
+        //private readonly UserManager<AppUser> _um;
 
         public bool IsAdmin { get; set; }
 
         [BindProperty]
         public IList<Author> Users { get; set; }
 
-        public UsersModel(AppDbContext db, UserManager<AppUser> um)
+        public AuthorsModel(AppDbContext db) //, UserManager<AppUser> um)
         {
             _db = db;
-            _um = um;
+            //_um = um;
         }
 
         public async Task<IActionResult> OnGetAsync()

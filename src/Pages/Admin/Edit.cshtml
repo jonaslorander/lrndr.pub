@@ -1,43 +1,46 @@
 ﻿@page "{id:int?}"
 @model lrndrpub.Pages.Admin.EditModel
+
+@inject IFileService fs;
+
 @{
     ViewData["Title"] = "Edit";
 
-    var disabled = Model.Post.PostId == 0 ? "disabled" : "";
-
-    @functions
+    string GetFaIcon(string filename)
     {
-        public string ButtonDisabled(string btn)
+        string ext = System.IO.Path.GetExtension(filename);
+
+        switch(ext)
         {
-            bool newPost = (Model.Post.PostId == 0);
+            case ".pdf":
+                return "fa-file-pdf";
 
-            if (newPost && (btn == "delete"))
-                return "disabled";
+            case ".txt":
+                return "fa-file-alt";
 
-            if (!newPost && (btn == "draft"))
-                return "disabled";
+            case ".zip":
+                return "fa-file-archive";
 
-            return "";
+            case ".doc":
+            case ".docx":
+                return "fa-file-word";
+
+            case ".xls":
+            case ".xlsx":
+                return "fa-file-excel";
+
+            default:
+                return "fa-question";
         }
     }
 }
 
-<form method="post" id="editForm" class="" asp-antiforgery="true">
+<form method="post" id="editForm" class="d-flex flex-column h-100" asp-antiforgery="true" enctype="multipart/form-data">
     <div class="edit-top">
         <div class="container">
-            <div class="row">
-                <div class="edit-title col-sm">
-                    <input type="text" asp-for="Post.Title" placeholder="Title..." />
-                </div>
-
-                <div class="edit-slug col-sm">
-                    <input type="text" asp-for="Post.Slug" placeholder="Slug..." />
-                </div>
-            </div>
-
             <div class="btn-group edit-buttons" role="group">
-                <button type="submit" class="btn btn-light" asp-page-handler="Publish">Publish</button>
-                <button type="submit" class="btn btn-light" asp-page-handler="SaveDraft" @ButtonDisabled("draft")>Save as draft</button>
+                <button type="submit" class="btn btn-light" asp-page-handler="Publish" id="btnPublish">Publish</button>
+                <button type="submit" class="btn btn-light" asp-page-handler="SaveDraft" asp-disabled-if="@(Model.Post.PostId > 0 && Model.Post.IsPublished)" id="btnDraft">Save as draft</button>
                 <button class="btn btn-light" type="button" data-toggle="collapse" data-target="#collapseSettings" aria-expanded="false" aria-controls="collapseSettings">
                     <i class="fas fa-cog"></i>
                 </button>
@@ -45,32 +48,92 @@
 
             <div class="btn-group edit-buttons" role="group">
                 <button type="button" class="btn btn-light" data-toggle="modal" data-target="#cancelModal">Cancel</button>
-                <button type="button" class="btn btn-light" data-toggle="modal" data-target="#deleteModal" @ButtonDisabled("delete")><i class="fas fa-trash"></i></button>
+                <button type="button" class="btn btn-light" data-toggle="modal" data-target="#deleteModal" asp-disabled-if="@(Model.Post.PostId == 0)"><i class="fas fa-trash"></i></button>
+            </div>
+
+            <div class="row">
+                <div class="edit-title col-sm">
+                    <input type="text" asp-for="Post.Title" placeholder="Title..." />
+                </div>
             </div>
 
             <div class="collapse row" id="collapseSettings">
                 <div class="col-sm">
-                    Publish date:<br />
-                    <input type="datetime" asp-for="Post.PublishedAt" />
+                    Slug:<br />
+                    <input type="text" asp-for="Post.Slug" class="form-control form-control-sm" />
+
+                    Publish date and time:<br />
+                    <div class="input-group input-group-sm">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text"><i class="fas fa-calendar"></i>&nbsp;<i class="fas fa-clock"></i></div>
+                        </div>
+                        <input type="text" asp-for="Post.PublishedAt" class="form-control form-control-sm" />
+                    </div>
+                    @*
+                        <div class="form-row">
+                            <div class="col-md-7">
+                                <div class="input-group input-group-sm">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text"><i class="fas fa-calendar"></i></div>
+                                    </div>
+                                    <input type="date" asp-for="Post.PublishedAt.Date" class="form-control" />
+                                </div>
+                            </div>
+
+                            <div class="col-md-5">
+                                <div class="input-group input-group-sm">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text"><i class="fas fa-clock"></i></div>
+                                    </div>
+                                    <input type="time" asp-for="Post.PublishedAt" class="form-control" />
+                                </div>
+                            </div>
+                        </div>
+                    *@
                 </div>
 
                 <div class="col-sm">
-                    Cover image:<br />
-                    <input type="text" asp-for="Post.CoverImage" /><br />
+                    <div class="coverimage h-100" id="coverimagepreview">
+                        <div class="btn-group btn-group-sm" role="group" id="coverimageselectbuttons">
+                            <a href="#" class="btn btn-light" role="button" id="btnCoverImageSelect" data-toggle="modal" data-target="#fileSelectModal"><i class="fas fa-image"></i></a>
+                            <a href="#" class="btn btn-light" role="button" id="btnCoverImageUpload"><i class="fas fa-upload"></i></a>
+                        </div>
 
+                        <div class="btn-group btn-group-sm" role="group" id="coverimageremovebutton" style="display: none;">
+                            <a href="#" class="btn btn-danger" role="button"><i class="fas fa-trash"></i></a>
+                        </div>
+
+                        <input type="file" asp-for="CoverImage" id="coverimageupload" class="d-none" />
+                    </div>
+                </div>
+
+                <div class="form-group col-sm">
                     Tags:<br />
-                    <input type="text" />
-                </div>
+                    <input type="text" class="form-control form-control-sm" />
 
-                <div class="col-sm">
-                    <input type="checkbox" asp-for="Post.IsPage" /> Save as page<br />
-                    <input type="checkbox" asp-for="Post.CommentsOpen" /> Allow comments
+                    <div class="form-check">
+                        <input class="form-check-input form-control-sm" type="checkbox" asp-for="Post.IsPage" />
+                        <label class="form-check-label form-control-sm" asp-for="Post.IsPage">
+                            Save as page
+                        </label>
+                    </div>
+
+                    <div class="form-check">
+                        <input class="form-check-input form-control-sm" type="checkbox" asp-for="Post.CommentsOpen" />
+                        <label class="form-check-label form-control-sm" asp-for="Post.CommentsOpen">
+                            Enable comments
+                        </label>
+                    </div>
                 </div>
+            </div>
+
+            <div class="row">
+                <div asp-validation-summary="All" class="text-danger"></div>
             </div>
         </div>
     </div>
 
-    <div class="editor-container container">
+    <div class="editor-container container flex-grow-1">
         <textarea id="editor" asp-for="Post.Content">
         </textarea>
     </div>
@@ -82,6 +145,7 @@
     <input type="hidden" asp-for="Post.UpdatedAt" />
     <input type="hidden" asp-for="Post.UpdatedBy" />
     <input type="hidden" asp-for="Post.PublishedBy" />
+    <input type="hidden" asp-for="Post.CoverImage" />
 
     <div class="modal fade" id="cancelModal" tabindex="-1" role="dialog" aria-labelledby="cancelModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -122,6 +186,48 @@
             </div>
         </div>
     </div>
+
+    <div class="modal fade" id="fileSelectModal" tabindex="-1" role="dialog" aria-labelledby="fileSelectModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="fileSelectModalCenterTitle">Select file</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <h5 class="modal-title">Image files</h5>
+                    <div class="fileSelectModalImages">
+                        @{
+                            string webpath;
+                            foreach (var file in fs.GetImages())
+                            {
+                                webpath = fs.GetWebPath(file.FullName);
+                                <div style="background-image: url('@webpath');" data-filename="@webpath" data-filetype="@System.IO.Path.GetExtension(webpath).Trim(new char[] { '.' })"></div>
+                            }
+                        }
+                    </div>
+
+                    <h5 class="modal-title">Other files</h5>
+                    <div class="fileSelectModalFiles">
+                        <ul class="list-group">
+                            @{
+                                foreach (var file in fs.GetFiles().OrderBy(f => f.Name))
+                                {
+                                    webpath = fs.GetWebPath(file.FullName);
+                                    <li class="list-group-item"><a href="#" title="Select this file" data-filename="@webpath" data-filetype="@System.IO.Path.GetExtension(webpath).Trim(new char[] { '.' })"><i class="fa @GetFaIcon(file.Name)"></i> @file.Name (@(file.Length / 1024) kB)</a></li>
+                                }
+                            }
+                        </ul>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" id="btnFileSelectCancel">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </form>
 
 @section StyleSheets {
@@ -135,9 +241,21 @@
 
 @section Scripts {
     <environment inlcude="Development">
+        <script src="//rawcdn.githack.com/RickStrahl/jquery-resizable/master/dist/jquery-resizable.js"></script>
         <script src="~/lib/Trumbowyg/trumbowyg.js"></script>
+        <script src="~/lib/Trumbowyg/plugins/resizimg/trumbowyg.resizimg.js"></script>
     </environment>
     <environment exclude="Development">
+        <script src="//rawcdn.githack.com/RickStrahl/jquery-resizable/master/dist/jquery-resizable.min.js"></script>
         <script src="~/lib/Trumbowyg/trumbowyg.min.js"></script>
+        <script src="~/lib/Trumbowyg/plugins/resizimg/trumbowyg.resizimg.min.js"></script>
     </environment>
+    <script src="~/js/trumbowyg.base64.js"></script>
+    <script src="~/js/trumbowyg.filepicker.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function ($) {
+
+        });
+    </script>
 }

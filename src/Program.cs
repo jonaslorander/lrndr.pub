@@ -62,7 +62,7 @@ namespace lrndrpub
                 {
                     webBuilder.ConfigureAppConfiguration((hostingContext, config) =>
                     {
-                        config.AddAppConfiguration(options => options.UseSqlite((@"DataSource=.\app.db")));
+                        config.AddAppConfiguration(options => options.UseSqlite(@"DataSource=.\app.db"));
                     })
                     .UseStartup<Startup>();
                 });

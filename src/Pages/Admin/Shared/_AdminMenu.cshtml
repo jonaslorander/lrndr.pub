@@ -1,0 +1,9 @@
+﻿@model lrndrpub.Models.Post
+@{
+    if (User.Identity.IsAuthenticated)
+    {
+        <ul>
+            <li><a asp-page="Admin/Edit" asp-route-id="@Model.PostId">Edit</a></li>
+        </ul>
+    }
+}

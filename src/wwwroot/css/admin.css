@@ -29,15 +29,15 @@ html, body {
     height: 100vh;
 }
 
-    .admin-content {
-        /*padding-top: 1rem;
-    padding-bottom: 1rem;*/
-        height: 100%;
-    }
+.admin-content {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    height: 100vh;
+}
 
-    .admin-padding {
-        padding: 1rem;
-    }
+.admin-padding {
+    padding: 1rem;
+}
 
 .cookieConsent {
 }
@@ -65,10 +65,10 @@ html, body {
     opacity: 0.65;
 }
 
-.admmenu-item-link:hover {
-    color: #fff;
-    opacity: 1;
-}
+    .admmenu-item-link:hover {
+        color: #fff;
+        opacity: 1;
+    }
 
 .admmenu-item-icon {
     display: block;
@@ -80,24 +80,40 @@ html, body {
 }
 
 #editForm {
-    height: 100%;
-    display: flex;
-    flex-flow: column;
 }
 
-#editForm .editor-container {
-    display: flex;
-    flex-grow: 1 !important;
-}
-
-    #editForm .trumbowyg-box, #editForm .trumbowyg-editor {
+    #editForm .editor-container {
         display: flex;
-        flex-flow: column;
     }
 
-    #editForm .trumbowyg-box, #editForm .trumbowyg-editor {
-        flex-grow: 1;
+    #editForm .trumbowyg-box {
+        border-radius: 0.25rem;
     }
+
+    #editForm .trumbowyg-box, .trumbowyg-editor {
+        min-height: auto;
+    }
+
+        #editForm .trumbowyg-box .trumbowyg-button-pane {
+            border-top-left-radius: 0.25rem;
+            border-top-right-radius: 0.25rem;
+        }
+
+    #editForm .trumbowyg-editor {
+        max-height: calc(100% - 36px) !important;
+        height: calc(100% - 36px) !important;
+    }
+
+.trumbowyg-filepicker-button svg {
+    display: none
+}
+
+.trumbowyg-filepicker-button:before {
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    /*content: "\f477";*/
+    content: "\f15b";
+}
 
 .edit-settingsbar {
     margin: 0;
@@ -108,19 +124,31 @@ html, body {
 
 .edit-top {
     padding: 1rem;
-    background-color: #6c757d;
+    padding-bottom: 0;
+    /*background-color: #6c757d;*/
 }
 
-.edit-top #collapseSettings {
-    padding-top: 1rem;
-    padding-bottom: 1rem;
-    border: 1px solid #eee;
-}
+    .edit-top #collapseSettings {
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+        border: 1px solid #eee;
+        /*margin-top: 25px;*/
+        border-radius: 0.25rem;
+        margin-left: 0;
+        margin-right: 0;
+        background-color: #f4f8fb;
+    }
 
-.edit-top .edit-buttons {
-    padding-top: 1rem;
-    padding-right: 1rem;
-}
+    .edit-top .edit-buttons {
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+        /*padding-right: 1rem;*/
+    }
+
+    .edit-top .btn-light {
+        background-color: #ecf0f1;
+        border-color: #ddd;
+    }
 
 .edit-title input,
 .edit-slug input {
@@ -130,36 +158,139 @@ html, body {
     font-weight: bold;
     border: none;
     background: none;
-    color: #eee;
+    color: #333;
     outline: none !important;
 }
 
+.edit-top .coverimage {
+    /*height: 180px;*/
+    border: 1px solid #ddd;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    border-radius: 0.25rem;
+}
+
+    .edit-top .coverimage .coverimageupload {
+        margin: 0 !important;
+    }
+
+    .edit-top .coverimage .coverimagepicker {
+        position: absolute;
+        bottom: 0;
+        left: 15px;
+        height: 24px;
+        width: 24px;
+        margin: 10px;
+        text-align: center;
+    }
+
+.edit-top #coverimagepreview {
+    background-position: center center;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
 .edit-title input::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: #999;
+    opacity: 0.5; /* Firefox */
+}
+
+.edit-title input:-ms-input-placeholder { /* Internet Explorer 10-11 */
     color: #eee;
     opacity: 0.5; /* Firefox */
 }
 
-    .edit-title input:-ms-input-placeholder { /* Internet Explorer 10-11 */
-        color: #eee;
-        opacity: 0.5; /* Firefox */
-    }
-
-    .edit-title input::-ms-input-placeholder { /* Microsoft Edge */
-        color: #eee;
-        opacity: 0.5; /* Firefox */
-    }
+.edit-title input::-ms-input-placeholder { /* Microsoft Edge */
+    color: #eee;
+    opacity: 0.5; /* Firefox */
+}
 
 .edit-slug input::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
     color: #eee;
     opacity: 0.5; /* Firefox */
 }
 
-    .edit-slug input:-ms-input-placeholder { /* Internet Explorer 10-11 */
-        color: #eee;
-        opacity: 0.5; /* Firefox */
+.edit-slug input:-ms-input-placeholder { /* Internet Explorer 10-11 */
+    color: #eee;
+    opacity: 0.5; /* Firefox */
+}
+
+.edit-slug input::-ms-input-placeholder { /* Microsoft Edge */
+    color: #eee;
+    opacity: 0.5; /* Firefox */
+}
+
+
+.btn-file {
+    position: relative;
+    overflow: hidden;
+}
+
+    .btn-file input[type=file] {
+        position: absolute;
+        top: 0;
+        right: 0;
+        min-width: 100%;
+        min-height: 100%;
+        font-size: 100px;
+        text-align: right;
+        filter: alpha(opacity=0);
+        opacity: 0;
+        outline: none;
+        background: white;
+        cursor: inherit;
+        display: block;
     }
 
-    .edit-slug input::-ms-input-placeholder { /* Microsoft Edge */
-        color: #eee;
-        opacity: 0.5; /* Firefox */
+
+.list-files {
+}
+
+    .list-files .file {
+        width: 250px;
+        /*height: 150px;*/
+        margin: 10px;
+        padding: 10px;
+        border: 1px solid #eee;
+        border-radius: 0.25rem;
+        background-color: #fff;
     }
+
+        .list-files .file .selected {
+            background-color: #ecf0f1;
+        }
+
+        .list-files .file img {
+            width: 100%;
+        }
+
+#filesForm .card-columns {
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+    #filesForm .card-columns .card .card-title {
+        white-space: nowrap;
+        overflow: hidden;
+    }
+
+#fileSelectModal .fileSelectModalImages {
+    text-align: center;
+}
+
+#fileSelectModal .fileSelectModalFiles {
+    text-align: left;
+}
+
+#fileSelectModal .fileSelectModalImages div {
+    background-position: center center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    width: 140px;
+    height: 140px;
+    border-radius: 0.25rem;
+    border: 1px solid #eee;
+    display: inline-block;
+    cursor: pointer;
+}

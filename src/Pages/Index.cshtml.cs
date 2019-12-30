@@ -17,7 +17,7 @@ namespace lrndrpub.Pages
     {
         private readonly IConfiguration _config;
         private readonly UserManager<AppUser> _um;
-        private AppDbContext _db;
+        private readonly AppDbContext _db;
 
         public List<Post> Posts { get; set; }
         public bool IsAdmin { get; set; } = false;

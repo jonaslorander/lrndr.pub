@@ -32,7 +32,7 @@
 
         <partial name="_CookieConsentPartial" />
 
-        <div class="admin-content">
+        <div class="admin-content container">
             @RenderBody()
         </div>
 
@@ -43,6 +43,9 @@
                 </li>
                 <li class="admmenu-item">
                     <a asp-page="/Admin/Edit" asp-route-id="" class="admmenu-item-link" title="New content"><i class="admmenu-item-icon fas fa-pencil-alt"></i></a>
+                </li>
+                <li class="admmenu-item">
+                    <a asp-page="/Admin/Comments" class="admmenu-item-link" title="Comments"><i class="admmenu-item-icon fa fa-comments"></i></a>
                 </li>
                 <li class="admmenu-item">
                     <a asp-page="/Admin/Files" class="admmenu-item-link" title="Files"><i class="admmenu-item-icon fa fa-copy"></i></a>
@@ -56,7 +59,7 @@
                 @if (Model.IsAdmin)
                 {
                     <li class="admmenu-item">
-                        <a asp-page="/Admin/Users" class="admmenu-item-link" title="Users"><i class="admmenu-item-icon fa fa-users"></i></a>
+                        <a asp-page="/Admin/Authors" class="admmenu-item-link" title="Users"><i class="admmenu-item-icon fa fa-users"></i></a>
                     </li>
                 }
                 <li class="admmenu-item">

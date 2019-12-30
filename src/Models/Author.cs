@@ -29,10 +29,14 @@ namespace lrndrpub.Models
         public string Slug { get; set; }
         public string ProfileImage { get; set; }
         public string CoverImage { get; set; }
-        
+
+        [DataType(DataType.DateTime)]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd HH:mm}")]
         public DateTime CreatedAt { get; set; }
         public uint CreatedBy { get; set; }
 
+        [DataType(DataType.DateTime)]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd HH:mm}")]
         public DateTime UpdatedAt { get; set; }
         public uint UpdatedBy { get; set; }
     }

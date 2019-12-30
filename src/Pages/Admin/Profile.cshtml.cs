@@ -28,15 +28,15 @@ namespace lrndrpub.Pages.Admin
             _um = um;
         }
 
-        public async Task<IActionResult> OnGet(string id = null)
+        public async Task<IActionResult> OnGet(string slug = null)
         {
             var author = await _db.Authors.SingleAsync(a => a.UserName == User.Identity.Name);
             IsAdmin = author.IsAdmin;
 
-            if (id == null)
-                id = (await _db.Authors.SingleAsync(a => a.UserName == User.Identity.Name)).AuthorId.ToString();
+            if (slug == null)
+                slug = (await _db.Authors.SingleAsync(a => a.UserName == User.Identity.Name)).Slug;
 
-            Author = await _db.Authors.SingleAsync(a => a.AuthorId == uint.Parse(id));
+            Author = await _db.Authors.SingleAsync(a => a.Slug == slug);
 
             if (Author == null)
                 return NotFound();

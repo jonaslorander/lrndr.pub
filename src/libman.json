@@ -38,7 +38,7 @@
       ]
     },
     {
-      "library": "Trumbowyg@2.11.1",
+      "library": "Trumbowyg@2.19.1",
       "destination": "wwwroot/lib/Trumbowyg/"
     }
   ]

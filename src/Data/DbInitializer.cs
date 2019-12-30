@@ -33,7 +33,7 @@ namespace lrndrpub.Data
                 new SettingsValue {Key = "Description", Value = "asp.net core blogging platform", Type = SettingType.Blog, CreatedAt = DateTime.Now, CreatedBy = context.Authors.FirstOrDefault(u => u.Fullname.Equals("admin")).AuthorId },
                 new SettingsValue {Key = "PostsPerPage", Value = "5", Type = SettingType.Blog, CreatedAt = DateTime.Now, CreatedBy = context.Authors.FirstOrDefault(u => u.Fullname.Equals("admin")).AuthorId },
                 new SettingsValue {Key = "EnableComments", Value = "true", Type = SettingType.Blog, CreatedAt = DateTime.Now, CreatedBy = context.Authors.FirstOrDefault(u => u.Fullname.Equals("admin")).AuthorId },
-                new SettingsValue {Key = "CommentingDays", Value = "90", Type = SettingType.Blog, CreatedAt = DateTime.Now, CreatedBy = context.Authors.FirstOrDefault(u => u.Fullname.Equals("admin")).AuthorId },
+                new SettingsValue {Key = "DaysToComment", Value = "90", Type = SettingType.Blog, CreatedAt = DateTime.Now, CreatedBy = context.Authors.FirstOrDefault(u => u.Fullname.Equals("admin")).AuthorId },
                 new SettingsValue {Key = "ModerateComments", Value = "true", Type = SettingType.Blog, CreatedAt = DateTime.Now, CreatedBy = context.Authors.FirstOrDefault(u => u.Fullname.Equals("admin")).AuthorId },
                 new SettingsValue {Key = "Theme", Value = "Standard", Type = SettingType.Blog, CreatedAt = DateTime.Now, CreatedBy = context.Authors.FirstOrDefault(u => u.Fullname.Equals("admin")).AuthorId }
             };

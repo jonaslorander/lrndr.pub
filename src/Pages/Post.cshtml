@@ -11,23 +11,29 @@
 @* Include Admin menu for post here, or in post? If in post we have to send *@
 <partial name="@PostPartial" model="@Model.Post" />
 
-<h3>Comments</h3>
-@* If comments are enabled, show them here*@
 @{
-    @if (Model.Comments.Count > 0)
+    if (Model.Comments.Count > 0 || (Model.Post.CommentsOpen && bool.Parse(_config["EnableComments"])))
     {
-        @foreach (Comment c in Model.Comments)
+        <h3>Comments</h3>
+        @* If comments are enabled, show them here*@
+
+        if (Model.Comments.Count > 0)
         {
-            <hr />
-            <partial name="@CommentPartial" model="@c" />
+            foreach (Comment c in Model.Comments)
+            {
+                <partial name="@CommentPartial" model="@c" />
+            }
+        }
+        else
+        {
+            <p>No comments yet.</p>
         }
     }
-    else
+
+    if (Model.Post.CommentsOpen && bool.Parse(_config["EnableComments"]) &&
+        Model.Post.PublishedAt.AddDays(int.Parse(_config["DaysToComment"])).Date >= DateTime.Now.Date)
     {
-        <p>No comments yet.</p>
+        @* comments form with recaptcha (recaptcha secrets are theme settings) *@
+        <text>Comment form here</text>
     }
 }
-
-
-@* comments form *@
-

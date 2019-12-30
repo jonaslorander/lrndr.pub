@@ -11,6 +11,8 @@ using Microsoft.EntityFrameworkCore;
 using lrndrpub.Data;
 using lrndrpub.Models;
 
+using Slugify;
+
 namespace lrndrpub.Pages.Admin
 {
     public class RegisterModel : PageModel
@@ -45,8 +47,8 @@ namespace lrndrpub.Pages.Admin
 
         #endregion
 
-        private AppDbContext _db;
-        private UserManager<AppUser> _um;
+        private readonly AppDbContext _db;
+        private readonly UserManager<AppUser> _um;
 
         public bool IsAdmin { get; set; }
 
@@ -85,7 +87,7 @@ namespace lrndrpub.Pages.Admin
                     //IdentityId = _db.Users.Single(u => u.UserName == UserName).Id,
                     IdentityId = await _um.GetUserIdAsync(await _um.FindByEmailAsync(Email)),
                     UserName = UserName,
-                    // TODO: Slug = CreateSlug(UserName),
+                    Slug = await CreateSlug(UserName),
                     IsAdmin = SetAsAdmin,
                     CreatedAt = DateTime.Now,
                     CreatedBy = (await _db.Authors.SingleAsync(a => a.UserName == User.Identity.Name)).AuthorId
@@ -108,6 +110,14 @@ namespace lrndrpub.Pages.Admin
             }
 
             return Page();
+        }
+        private async Task<string> CreateSlug(string username)
+        {
+            string slug;
+            SlugHelper helper = new SlugHelper();
+            slug = helper.GenerateSlug(username);
+
+            return await Task.FromResult(slug);
         }
     }
 }

@@ -1,0 +1,129 @@
+﻿@page
+@model lrndrpub.Pages.Admin.FilesModel
+
+@inject IFileService fs;
+@{
+    ViewData["Title"] = "Files";
+
+    string GetFaIcon(string filename)
+    {
+        string ext = System.IO.Path.GetExtension(filename);
+
+        switch(ext)
+        {
+            case ".pdf":
+                return "fa-file-pdf";
+
+            case ".txt":
+                return "fa-file-alt";
+
+            case ".zip":
+                return "fa-file-archive";
+
+            case ".doc":
+            case ".docx":
+                return "fa-file-word";
+
+            case ".xls":
+            case ".xlsx":
+                return "fa-file-excel";
+
+            default:
+                return "fa-question";
+        }
+    }
+}
+
+    <form id="filesForm" method="post" enctype="multipart/form-data">
+        <input type="hidden" asp-for="@Model.SelectedFile" />
+
+        <h3>Upload new file:</h3>
+        <div class="row">
+            <div class="input-group">
+                <div class="custom-file">
+                    <input type="file" class="custom-file-input" asp-for="@Model.UploadFile" aria-describedby="btnUpload" />
+                    <label class="custom-file-label" asp-for="@Model.UploadFile">Choose file</label>
+                </div>
+                <div class="input-group-append">
+                    <button type="submit" class="btn btn-secondary" asp-page-handler="Upload" id="btnUpload">Upload</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div asp-validation-summary="All" class="text-danger"></div>
+        </div>
+
+        @if ((bool)ViewData["SuccessShow"] == true)
+        {
+            <div class="row">
+                <div class="alert alert-success container" role="alert">
+                    @ViewData["SuccessMessage"]
+                </div>
+            </div>
+        }
+
+        <h3>Images:</h3>
+        <div class="card-columns">
+            @{
+                string webpath;
+                foreach (var file in fs.GetImages())
+                {
+                    webpath = fs.GetWebPath(file.FullName);
+
+                    <div class="card">
+                        <img src="@webpath" class="card-img-top" />
+                        <div class="card-body">
+                            <h5 class="card-title" title="@file.Name">@file.Name</h5>
+                            <p class="card-text">
+                                <strong>Uploaded:</strong> @file.CreationTime<br />
+                                <strong>File size:</strong> @(file.Length / 1024) kB
+                            </p>
+                            <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#deleteModal" data-filepath="@webpath"><i class="fas fa-trash"></i></button>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+
+        <h3>Other files:</h3>
+        <div class="card-columns">
+            @{
+                foreach (var file in fs.GetFiles())
+                {
+                    webpath = fs.GetWebPath(file.FullName);
+
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title" title="@file.Name"><i class="fas @(GetFaIcon(file.Name))"></i> @file.Name</h5>
+                            <p class="card-text">
+                                <strong>Uploaded:</strong> @file.CreationTime<br />
+                                <strong>File size:</strong> @(file.Length / 1024) kB
+                            </p>
+                            <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#deleteModal" data-filepath="@webpath"><i class="fas fa-trash"></i></button>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+
+        <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="deleteModalCenterTitle"><i class="fas fa-exclamation-triangle" style="color: #e00;"></i> Delete</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        Are you sure you want to delete the selected file?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-danger" asp-page-handler="Delete">Yes</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>

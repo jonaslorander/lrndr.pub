@@ -26,10 +26,17 @@ namespace lrndrpub.Models
         public bool CommentsOpen { get; set; } = false;
         public bool IsPage { get; set; } = false;
 
+        [DataType(DataType.DateTime)]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd HH:mm}")]
         public DateTime CreatedAt { get; set; }
         public uint CreatedBy { get; set; }
+        [DataType(DataType.DateTime)]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd HH:mm}")]
         public DateTime UpdatedAt { get; set; }
         public uint UpdatedBy { get; set; }
+
+        [DataType(DataType.DateTime)]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd HH:mm}")]
         public DateTime PublishedAt { get; set; }
         public uint PublishedBy { get; set; }
     }
